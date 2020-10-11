@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--Style Sheets-->
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css" href="css/home.css">
+<link rel="stylesheet" type="text/css" href="css/chart.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+
+<!--Style Sheets-->    
+
+<!--JavaScript-->
+<script src="js/index.js"></script>
+<script src="js/home.js"></script> 
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="js/chart.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="js/table_chart.js"></script>
+
+
+
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+
+<script src="js/onMap.js"></script>
+<!--JavaScript-->
+
+</head>
+<body onload="defaultpage(); pageload()">
+<header class="header">
+    <div id="title_text">Real time Air Quality Index: <b></b>
+        <u></u>
+    
+        <div>
+            <button class="tablink" onclick="openPage('Home', this, '#AFC2F0')" id="defaultOpen">Home</button>
+            <button class="tablink" onclick="openPage('Chart', this, '#AFC2F0')">Chart</button>
+            <button class="tablink" onclick="openPage('On Map', this, '#AFC2F0')">About</button>
+         <select id="region" onchange="regionsel()">         </select>
+        </div>
+    </div>
+    
+</header>
+
+<!--Home Content Start-->
+<div id="Home" class="tabcontent" style="background-color: rgb(235, 237, 250) ;">
+ 
+  <div id="home_div1" style="float:left; width:50%; padding-right:20px;">
+    <b class="table_text"> </b> AQI : <b class="table_text"> </b> <div id="span1"> </div>
+ 
+  <table id="v_Table" style="width: 100%;">
+      <tr>
+      <th>Factors</th><th>Min</th><th>Max</th><th>Avg</th>
+    </tr>
+    <tr>
+      <td class="td01">
+        PM2.5
+      </td>
+      <td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="td01">PM10</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="td01">NO2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="td01">NH3</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="td01">SO2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="td01">CO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="td01">OZONE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+  
+  <div id="table_chart"></div>
+  </div>
+  <style>
+  .toggleOn{
+  background-color: #B3D9F0;
+  border: #707070;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 15px;
+  float: right;
+}
+.toggleOff{
+  background-color: rgb(187, 183, 241);
+  border: #707070;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 15px;
+  float: right;
+}
+.toggle:hover {
+  background-color: rgb(144, 207, 228);
+}
+</style>
+  <b class="toggleOn" onclick="changeMap(this)">Change Map</b>
+  <script>
+  function changeMap(item){
+           if(item.className == "toggleOn") {
+              item.className="toggleOff";
+              mymap.remove();
+              heatmap_func();
+           } 
+           else {
+              item.className="toggleOn";
+              mymap1.remove();
+              myfun();
+           }
+        }
+     </script>
+  <span id="mapid" style="width: 50%; height: 600px; float: right;"></span>
+  
+</div>
+<style type="text/css">
+  .font{
+    font-size: 15px;
+  }
+</style>
+
+<style type="text/css">
+  .custom .leaflet-popup-tip,
+  .custom .leaflet-popup-content-wrapper {
+    background: rgb(219, 224, 238);
+    color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  border-radius: 20px;
+}
+</style>
+
+
+<!--Home Content End-->
+
+
+<div id="Chart" class="tabcontent">
+  <div id="myDiv"></div>
+  <script>
+  Plotly.d3.csv("assests/aqi.csv", function(err, rows){
+
+    function unpack(rows, key) {
+     return rows.map(function(row) { return row[key]; });
+   }
+   
+     
+   var trace1 = {
+     type: "scatter",
+     mode: "lines",
+     name: 'PM1',
+     x: unpack(rows, 'Date_Time'),
+     y: unpack(rows, 'PM1'),
+     line: {color: '#17BECF'}
+   }
+   
+   var trace2 = {
+     type: "scatter",
+     mode: "lines",
+     name: 'PM10',
+     x: unpack(rows, 'Date_Time'),
+     y: unpack(rows, 'PM10'),
+     line: {color: '#7F7F7F'}
+   }
+   
+   var trace3 = {
+     type: "scatter",
+     mode: "lines",
+     name: 'PM2.5',
+     x: unpack(rows, 'Date_Time'),
+     y: unpack(rows, 'PM2_5'),
+     line: {color: '#red'}
+   }
+   var data = [trace1,trace2,trace3];
+       
+   var layout = {
+     title: 'Time Series Chart', 
+     xaxis: {
+       autorange: true, 
+       range: ['2018-12-31', '2019-01-04'], 
+       rangeselector: {buttons: [
+           {
+             count: 1, 
+             label: '1day', 
+             step: 'day', 
+             stepmode: 'forward'
+           }, 
+           {
+             count: 6, 
+             label: '6days', 
+             step: 'day', 
+             stepmode: 'forward'
+           }, 
+           {
+             count: 12, 
+             label: '12days', 
+             step: 'day', 
+             stepmode: 'forward'
+           }, 
+           {step: 'all'}
+         ]}, 
+       rangeslider: {range: ['2018-12-31', '2019-01-04']}, 
+       type: 'date'
+     }, 
+     yaxis: {
+       autorange: true, 
+       range: [20, 200], 
+       type: 'linear'
+     }
+   };
+   
+   Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
+   })
+  </script> 
+</div>
+
+
+<div id="On Map" class="tabcontent">
+    
+    <script src="https://www.patrick-wied.at/static/heatmapjs/assets/js/heatmap.min.js"></script>
+    <script src= "https://www.patrick-wied.at/static/heatmapjs/assets/js/leaflet-heatmap.js"></script>
+    <script src="js/onHeatmap.js"></script>
+   
+   
+   
+
+</div>   
+</div> 
+</body>
+</html>
