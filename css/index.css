@@ -1,0 +1,61 @@
+.header{
+    background-color: #D6DDF6;
+    padding-bottom: 2px;
+    padding: 2px;
+}
+
+#title_text{
+  text-align: center;
+  color: #666;
+  font-size: 1.5rem; 
+ }
+
+div u{
+    float:right;
+    padding-right: 0.5rem;
+    font-size: 1.5rem;
+}
+#region{
+  border: #8CE0ED 1px;
+  border-radius: 7px;
+  font-size: 90%;
+  padding: 5px;
+  height: 40px;
+  width: 28%;
+}
+* {box-sizing: border-box}
+
+/* Set height of body and the document to 100% */
+body, html {
+  height: 100%;
+  margin: 0;
+  min-width:1000px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #666;
+  background-color: #F9FAFB;
+}
+
+/* Style tab links */
+.tablink {
+  background-color:#E4E7EF;
+  float: left;
+  border: #707070;
+  outline: none;
+  cursor: pointer;
+  box-shadow: #000000;
+  padding: 14px;
+  font-size: 17px;
+  width: 24%;
+  height: 40px;
+  font-weight: bold;
+}
+
+.tablink:hover {
+  background-color: #CCD8DC;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+  padding: 50px 20px;
+  height: 93%;
+}

@@ -1,0 +1,49 @@
+ 
+  table {
+    width: 50%;
+  }
+  table, th, td {
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 10px;
+  
+  }
+  td{
+      background-color: rgb(241, 247, 252)
+  }
+  table th {
+    background-color:rgb(235, 237, 250) ;
+    color: #4B5D8F;
+    text-align: left;
+  }
+  .td01 {
+    background-color: rgb(235, 237, 250);
+    color: #4B5D8F;
+    width: 5em;
+  }
+
+  #span1{
+  background-color: #cfc ;
+  border: 1px solid green ;
+  box-sizing: inherit;
+  text-align: center;
+  width:100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  }
+  
+  #Home{
+    margin:0px;
+    background-color: #F9FAFB;
+    display: inline;
+  }
+
+  #table_chart{
+    padding-top: 30px;
+    padding-right: 10px;
+  }
+  .table_text{
+    background-color: rgb(235, 237, 250) ;
+  }
+  
